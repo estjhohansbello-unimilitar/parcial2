@@ -79,10 +79,14 @@ function generarFigura() {
     const n = Math.floor(Math.random() * 6) + 5;
 
     console.log("Lados:", n);
+    const vertices = getPolygonVertices(cx, cy, n, R);
 
     const vertices = getPolygonVertices(cx, cy, n, R);
 
     drawPolygon(vertices);
+    
+    // Dibuja círculos en los vértices del polígono con un radio de R/4
+    drawCirclesAtVertices(vertices, R);
 }
 
 // Ejecutar al cargar ya que el canvas cargaba antes que el html
@@ -93,3 +97,52 @@ window.onload = function () {
 
     generarFigura();
 };
+/**
+ * Dibuja una circunferencia usando el algoritmo del punto medio
+ * (Bresenham para circunferencias)
+ */
+function drawCircle(cx, cy, r, color = "#000000") {
+
+    let x = 0;
+    let y = r;
+
+    /*
+     Parámetro de decisión:
+    p determina si el siguiente punto está dentro o fuera del círculo
+    */
+    let p = 1 - r;
+
+    while (x <= y) {
+
+        // Simetría en los 8 octantes
+        drawPixel(ctx, cx + x, cy + y, color);
+        drawPixel(ctx, cx - x, cy + y, color);
+        drawPixel(ctx, cx + x, cy - y, color);
+        drawPixel(ctx, cx - x, cy - y, color);
+
+        drawPixel(ctx, cx + y, cy + x, color);
+        drawPixel(ctx, cx - y, cy + x, color);
+        drawPixel(ctx, cx + y, cy - x, color);
+        drawPixel(ctx, cx - y, cy - x, color);
+
+        x++;
+
+        if (p < 0) {
+            // Punto medio dentro del círculo
+            p += 2 * x + 1;
+        } else {
+            // Punto medio fuera del círculo
+            y--;
+            p += 2 * (x - y) + 1;
+        }
+    }
+}
+// Dibuja círculos en los vértices del polígono con un radio de R/4  
+function drawCirclesAtVertices(vertices, R) {
+
+    const r = Math.round(R / 4); // radio solicitado
+
+    vertices.forEach(v => {
+        drawCircle(v.x, v.y, r);
+    });
+}
