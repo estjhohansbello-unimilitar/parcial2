@@ -4,7 +4,7 @@ let canvas, ctx;
 // Función para dibujar un pixel
 function drawPixel(ctx, x, y, color = "#000000") {
     ctx.fillStyle = color;
-    ctx.fillRect(x, y, 1, 1);
+   ctx.fillRect(Math.round(x), Math.round(y), 1, 1);
 }
 
 // Bresenham (todos los octantes)
@@ -81,15 +81,13 @@ function generarFigura() {
     console.log("Lados:", n);
     const vertices = getPolygonVertices(cx, cy, n, R);
 
-    const vertices = getPolygonVertices(cx, cy, n, R);
-
     drawPolygon(vertices);
-    
+
     // Dibuja círculos en los vértices del polígono con un radio de R/4
     drawCirclesAtVertices(vertices, R);
 }
 
-// Ejecutar al cargar ya que el canvas cargaba antes que el html
+// Ejecutar cuando el HTML ya esté cargado para asegurar que el canvas existe
 window.onload = function () {
 
     canvas = document.getElementById("canvas");
