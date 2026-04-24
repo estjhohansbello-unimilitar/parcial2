@@ -117,5 +117,24 @@ window.onload = function () {
 
     const vertices = getPolygonVertices(cx, cy, n, R);
 
-    drawPolygon(vertices);
+    generarFigura();
 };
+
+function generarFigura() {
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const R = 150;
+
+    // Número aleatorio entre 5 y 10
+    const n = Math.floor(Math.random() * 6) + 5;
+
+    const vertices = getPolygonVertices(cx, cy, n, R);
+
+    drawPolygon(vertices);
+
+    // Si ya tienes circunferencias:
+    dibujarCircunferenciasEnVertices(vertices, R);
+}
