@@ -93,3 +93,29 @@ function getPolygonVertices(centerX, centerY, sides, radius) {
 
     return vertices;
 }
+// Dibuja un polígono conectando sus vértices usando Bresenham 
+function drawPolygon(vertices) {
+    for (let i = 0; i < vertices.length; i++) {
+        let v1 = vertices[i];
+        let v2 = vertices[(i + 1) % vertices.length];
+
+        bresenhamLine(v1.x, v1.y, v2.x, v2.y);
+    }
+}
+// window.onload se asegura de que el código se ejecute después de que la página haya cargado completamente 
+window.onload = function () {
+
+    const canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const R = 150;
+
+    // n aleatorio entre 5 y 10
+    const n = Math.floor(Math.random() * 6) + 5;
+
+    const vertices = getPolygonVertices(cx, cy, n, R);
+
+    drawPolygon(vertices);
+};
